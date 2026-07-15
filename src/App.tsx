@@ -1,20 +1,16 @@
-import './styles/global.css';
-// import { Header } from './components/Header/Header';
-import { Hero } from './components/Hero/Hero';
-import { Features } from './components/Features/Features';
-import { Testimonials } from './components/Testimonials/Testimonials';
-import { Header } from './components/Header/Header';
-import { Solutions } from './components/Solutions/Solutions';
-import Home from './pages/Home';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './App.css'
+import Home from './pages/Home/Home';
+import Pricing from './pages/Pricing/Pricing';
 
 function App() {
   return (
-    <>
-      {/* <Header /> -> Lembre-se de adicionar a classe "glass-effect" no css do header */}
-      <main>
-     <Home></Home>
-      </main>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/planos" element={<Pricing />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

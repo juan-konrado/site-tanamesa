@@ -3,13 +3,13 @@ import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import {
     ArrowRight, Play, LayoutDashboard, Users, Receipt,
     Package, ChefHat, Calculator, Fingerprint, ShieldCheck,
-    Lock, Palette, Moon, Store, Shield,
+    Lock, Palette,
     Pizza, Coffee, Beer, UtensilsCrossed, Wine, CupSoda, X,
-    CheckCircle2, Mail, Phone,
 } from 'lucide-react';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import './Home.css';
 
-// --- ANIMAÇÕES GERAIS (Framer Motion) ---
 const fadeUp: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
@@ -63,54 +63,22 @@ const gridFeatures = [
     { icon: <Palette size={32} className="text-orange" />, title: "White-Label Premium", text: "Paletas exclusivas e upload do seu Logotipo. O painel carrega a logo do seu estabelecimento, gerando pertencimento." },
 ];
 
-const pricingPlans = [
-    {
-        name: "Essencial",
-        price: "R$ 149",
-        period: "/mês",
-        desc: "Ideal para operações enxutas, food trucks e balcão.",
-        features: ["Frente de Caixa (PDV) Visual", "Comandas Avulsas e Mesas", "Abertura e Fechamento de Turno", "Suporte via Chat"],
-        buttonText: "Testar Grátis",
-        highlighted: false
-    },
-    {
-        name: "Profissional",
-        price: "R$ 299",
-        period: "/mês",
-        desc: "A solução completa com controle rigoroso de estoque.",
-        features: ["Tudo do plano Essencial", "Gestão de Estoque e Alertas", "Fichas Técnicas Automáticas", "Acesso Rápido via PIN", "Suporte Prioritário WhatsApp"],
-        buttonText: "Assinar Profissional",
-        highlighted: true
-    },
-    {
-        name: "Enterprise",
-        price: "Sob medida",
-        period: "",
-        desc: "Para redes de restaurantes e franquias em expansão.",
-        features: ["Tudo do plano Profissional", "Painel Multi-Tenant (Rede)", "Feature Flags por CNPJ", "API e Integrações Premium", "Gerente de Conta Dedicado"],
-        buttonText: "Falar com Consultor",
-        highlighted: false
-    }
-];
-
 export default function Home() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [activeSection, setActiveSection] = useState<string>('');
 
-    // NOVO: Observador de Scroll (Scroll Spy)
     useEffect(() => {
-        const sectionIds = ['pdv', 'estoque', 'seguranca', 'precos'];
+        const sectionIds = ['pdv', 'estoque', 'seguranca'];
 
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    // Quando uma seção cruza 50% da tela, ela se torna a ativa
                     if (entry.isIntersecting) {
                         setActiveSection(entry.target.id);
                     }
                 });
             },
-            { rootMargin: '-40% 0px -40% 0px' } // Margem imaginária para disparar a troca no meio da tela
+            { rootMargin: '-40% 0px -40% 0px' }
         );
 
         sectionIds.forEach((id) => {
@@ -124,47 +92,14 @@ export default function Home() {
     return (
         <div className="home-wrapper">
 
-            {/* HEADER CENTRALIZADO */}
-            <div className="header-wrapper">
-                <header className="glass-header">
-                    <motion.div className="logo-area" whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }}>
-                        <Store className="text-orange" size={24} />
-                        <span className="logo-text">TaNaMesa</span>
-                    </motion.div>
-                    <nav className="nav-links">
-                        {[
-                            { id: 'pdv', label: 'Operação' },
-                            { id: 'estoque', label: 'Gestão' },
-                            { id: 'seguranca', label: 'Segurança' },
-                            { id: 'precos', label: 'Planos' }
-                        ].map((link) => (
-                            <div className="nav-link-item" key={link.id}>
-                                <a
-                                    href={`#${link.id}`}
-                                    className={activeSection === link.id ? 'active' : ''}
-                                >
-                                    {link.label}
-                                </a>
+            <Header activeSection={activeSection} links={[
+                { id: 'pdv', label: 'Operação', href: '/#pdv' },
+                { id: 'estoque', label: 'Gestão', href: '/#estoque' },
+                { id: 'seguranca', label: 'Segurança', href: '/#seguranca' },
+                { id: 'precos', label: 'Planos', href: '/planos' },
+            ]} />
 
-                                {/* O sublinhado mágico do Framer Motion */}
-                                {activeSection === link.id && (
-                                    <motion.div
-                                        layoutId="header-underline"
-                                        className="nav-underline"
-                                        initial={false}
-                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                                    />
-                                )}
-                            </div>
-                        ))}
-                    </nav>
-                    <motion.button className="btn-primary btn-sm" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-                        Começar
-                    </motion.button>
-                </header>
-            </div>
-
-            {/* HERO SECTION */}
+            {/* HERO */}
             <section className="hero-section">
                 <div className="floating-background">
                     {floatingIcons.map((item, idx) => (
@@ -200,7 +135,7 @@ export default function Home() {
                         </motion.div>
                     </motion.div>
 
-                    <motion.div className="hero-content-right" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}>
+                    <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}>
                         <div className="hero-image-wrapper">
                             <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Dashboard" className="hero-main-image" />
                             <motion.div className="floating-card top-card" drag dragConstraints={{ left: -10, right: 10, top: -10, bottom: 10 }}>
@@ -216,7 +151,7 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* PILARES 1 & 2 */}
+            {/* PILARES */}
             <section className="pillars-section">
                 <div className="container">
                     {pillars.map((pillar) => (
@@ -253,10 +188,10 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* BENTO GRID (AGORA NO MODO ESCURO) */}
+            {/* BENTO GRID */}
             <section className="grid-section" id="seguranca">
                 <div className="container">
-                    <div className="section-header text-center">
+                    <div className="text-center">
                         <motion.span variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="badge">Segurança Institucional</motion.span>
                         <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-title text-light">Gestão de Equipe e Marca (RBAC)</motion.h2>
                         <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-subtitle text-light-muted">Controle absoluto sobre quem acessa o quê. E o sistema se adapta à identidade visual do seu negócio, gerando mais confiança na sua operação.</motion.p>
@@ -267,8 +202,9 @@ export default function Home() {
                                 variants={fadeUp}
                                 className="bento-card"
                                 key={idx}
-                                whileHover={{ y: -4, boxShadow: "0 15px 30px rgba(0,0,0,0.5)", borderColor: "rgba(255,255,255,0.15)" }}>
-                                <motion.div className="bento-icon-wrapper" >{feat.icon}</motion.div>
+                                whileHover={{ y: -4, boxShadow: "0 15px 30px rgba(0,0,0,0.5)", borderColor: "rgba(255,255,255,0.15)" }}
+                            >
+                                <motion.div>{feat.icon}</motion.div>
                                 <h3 className="bento-title">{feat.title}</h3>
                                 <p className="bento-text">{feat.text}</p>
                             </motion.div>
@@ -277,99 +213,9 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* SEÇÃO DE PREÇOS */}
-            <section className="pricing-section" id="precos">
-                <div className="container">
-                    <div className="section-header text-center">
-                        <motion.span variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="badge">Planos Transparentes</motion.span>
-                        <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-title">Escolha o plano ideal para o seu momento</motion.h2>
-                        <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-subtitle">Mude de plano ou cancele quando quiser. Sem taxas ocultas.</motion.p>
-                    </div>
+            <Footer />
 
-                    <motion.div className="pricing-grid" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
-                        {pricingPlans.map((plan, idx) => (
-                            <motion.div
-                                key={idx}
-                                variants={fadeUp}
-                                className={`pricing-card ${plan.highlighted ? 'highlighted' : ''}`}
-                                whileHover={{ y: -6, boxShadow: plan.highlighted ? "0 25px 50px rgba(249, 115, 22, 0.15)" : "0 20px 40px rgba(0,0,0,0.08)" }}
-                                transition={{ duration: 0.4, ease: "easeOut" }}
-                            >
-                                {plan.highlighted && <div className="popular-tag">Mais Popular</div>}
-                                <div className="pricing-header">
-                                    <h3 className="plan-name">{plan.name}</h3>
-                                    <p className="plan-desc">{plan.desc}</p>
-                                    <div className="plan-price-wrapper">
-                                        <span className="plan-price">{plan.price}</span>
-                                        <span className="plan-period">{plan.period}</span>
-                                    </div>
-                                </div>
-                                <div className="pricing-features">
-                                    {plan.features.map((feat, fIdx) => (
-                                        <div className="p-feat-item" key={fIdx}>
-                                            <CheckCircle2 size={20} className={plan.highlighted ? "text-orange" : "text-muted"} />
-                                            <span>{feat}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                <button className={`btn-primary pricing-btn ${plan.highlighted ? '' : 'btn-outline'}`}>
-                                    {plan.buttonText}
-                                </button>
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* FOOTER */}
-            <footer className="footer-section">
-                <div className="container">
-
-
-                    <div className="footer-grid">
-                        <div className="footer-brand">
-                            <div className="logo-area">
-                                <Store className="text-orange" size={32} />
-                                <span className="logo-text" style={{ fontSize: '1.75rem' }}>TaNaMesa</span>
-                            </div>
-                            <p className="footer-desc">
-                                O ERP gastronômico invisível. Sua equipe aprende em 5 minutos, você gerencia em tempo real.
-                            </p>
-                            <div className="social-links">
-                                <motion.a href="#" whileHover={{ y: -3, color: "var(--color-action)" }}></motion.a>
-                                <motion.a href="#" whileHover={{ y: -3, color: "var(--color-action)" }}></motion.a>
-                            </div>
-                        </div>
-
-                        <div className="footer-links">
-                            <h4>Suporte</h4>
-                            <a href="#">Central de Ajuda</a>
-                        </div>
-
-                        <div className="footer-contact">
-                            <h4>Fale Conosco</h4>
-                            <div className="contact-item">
-                                <Mail size={18} className="text-orange" />
-                                <a href="mailto:contato@tanamesa.com.br">contato@tanamesa.com.br</a>
-                            </div>
-                            <div className="contact-item">
-                                <Phone size={18} className="text-orange" />
-                                <a href="tel:+5511999999999">(11) 99999-9999</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="footer-bottom">
-                        <p className="copyright">Desenvolvido e assinado por <strong>Karma Software</strong> © {new Date().getFullYear()}</p>
-                        <div className="legal-links">
-                            <a href="#">Termos de Uso</a>
-                            <a href="#">Política de Privacidade</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-
-            {/* MODAL LIGHTBOX COM FRAMER MOTION */}
+            {/* MODAL */}
             <AnimatePresence>
                 {selectedImage && (
                     <motion.div
@@ -395,7 +241,6 @@ export default function Home() {
                     </motion.div>
                 )}
             </AnimatePresence>
-
         </div>
     );
 }
