@@ -1,49 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Store } from 'lucide-react';
 import './Header.css';
 import { useContactModal } from '../../contexts/ContactModalContext';
 
-
-interface HeaderProps {
-    activeSection?: string;  // ← opcional agora
-    links?: { id: string; label: string; href?: string }[];
-    onCtaClick?: () => void;
-    ctaLabel?: string;
+interface LinkItem {
+    id: string;
+    label: string;
+    href: string; // ex: '/#pdv' ou '/planos'
 }
 
-const defaultLinks = [
+const defaultLinks: LinkItem[] = [
     { id: 'pdv', label: 'Operação', href: '/#pdv' },
     { id: 'estoque', label: 'Gestão', href: '/#estoque' },
     { id: 'seguranca', label: 'Segurança', href: '/#seguranca' },
     { id: 'precos', label: 'Planos', href: '/planos' },
+    { id: 'quemsomos', label: 'Quem Somos', href: '/quemsomos' },
 ];
 
-const Header: React.FC<HeaderProps> = ({
-    activeSection: externalActiveSection,
-    links = defaultLinks,
-    ctaLabel = 'Entrar em contato',
-}) => {
-    // Estado interno para scroll spy (usado quando não recebe a prop externamente)
-    const [internalActiveSection, setInternalActiveSection] = useState<string>('');
+const Header: React.FC = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const { openModal } = useContactModal();
+    const [activeSection, setActiveSection] = useState<string>('');
 
-    const activeSection = externalActiveSection || internalActiveSection;
+    // Função para navegar e depois rolar até a seção
+    const handleNavClick = useCallback(
+        (href: string) => {
+            // Se o link é uma rota (sem hash), navega normalmente
+            if (!href.includes('#')) {
+                navigate(href);
+                return;
+            }
 
-    // Scroll spy interno
+            // Separa o path base e o hash
+            const [path, hash] = href.split('#');
+            const targetPath = path || '/'; // se href="/#pdv", path será "/"
+
+            // Navega para o path
+            navigate(targetPath);
+
+            // Aguarda a renderização e faz scroll
+            setTimeout(() => {
+                const el = document.getElementById(hash);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        },
+        [navigate]
+    );
+
+    // Scroll spy para seções na página (quando na Home)
     useEffect(() => {
-        // Só ativa o scroll spy interno se não houver controle externo
-        if (externalActiveSection !== undefined) return;
+        // Se não estiver na Home, não observa seções
+        if (location.pathname !== '/') {
+            // Se estiver em /planos, ativa o link Planos
+            if (location.pathname === '/planos') {
+                setActiveSection('precos');
+            } else {
+                setActiveSection('');
+            }
+            return;
+        }
 
         const sectionIds = defaultLinks
-            .filter(link => link.href?.startsWith('/#'))
+            .filter(link => link.href.startsWith('/#'))
             .map(link => link.id);
 
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        setInternalActiveSection(entry.target.id);
+                        setActiveSection(entry.target.id);
                     }
                 });
             },
@@ -55,8 +85,13 @@ const Header: React.FC<HeaderProps> = ({
             if (element) observer.observe(element);
         });
 
-        return () => observer.disconnect();
-    }, [externalActiveSection]);
+        // Limpa ao desmontar ou mudar de rota
+        return () => {
+            observer.disconnect();
+            // Quando sair da Home, reseta a seção ativa
+            setActiveSection('');
+        };
+    }, [location.pathname]);
 
     return (
         <div className="header-wrapper">
@@ -71,14 +106,14 @@ const Header: React.FC<HeaderProps> = ({
                 </motion.div>
 
                 <nav className="nav-links">
-                    {links.map((link) => (
+                    {defaultLinks.map((link) => (
                         <div className="nav-link-item" key={link.id}>
-                            <a
-                                href={link.href || `#${link.id}`}
-                                className={activeSection === link.id ? 'active' : ''}
+                            <button
+                                className={`nav-btn ${activeSection === link.id ? 'active' : ''}`}
+                                onClick={() => handleNavClick(link.href)}
                             >
                                 {link.label}
-                            </a>
+                            </button>
                             {activeSection === link.id && (
                                 <motion.div
                                     layoutId="header-underline"
@@ -97,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({
                     whileTap={{ scale: 0.98 }}
                     onClick={openModal}
                 >
-                    {ctaLabel}
+                    Fale conosco
                 </motion.button>
             </header>
         </div>

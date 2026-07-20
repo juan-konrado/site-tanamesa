@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import Pricing from './pages/Pricing/Pricing';
+import About from './pages/About/About';
 import './App.css';
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/planos" element={<Pricing />} />
+          <Route path="/quemsomos" element={<About />} />
+
         </Routes>
         <Footer />
         <ContactModal />

@@ -1,0 +1,163 @@
+/* === ABOUT.CSS === */
+.about-page {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #0F172A;
+    background: #FAFAFA;
+}
+
+/* Hero */
+.about-hero {
+    background: #0B0F19;
+    color: #F8FAFC;
+    padding: 160px 0 100px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-hero-glow {
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, rgba(11, 15, 25, 0) 60%);
+    pointer-events: none;
+}
+
+.about-hero .container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.about-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin-bottom: 24px;
+}
+
+.about-hero .highlight {
+    color: #F97316;
+}
+
+.about-hero p {
+    font-size: 1.125rem;
+    color: #94A3B8;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Seções gerais */
+.about-section {
+    padding: 100px 0;
+}
+
+.about-section .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.about-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    letter-spacing: -0.02em;
+}
+
+.about-section p {
+    font-size: 1.05rem;
+    color: #334155;
+    line-height: 1.8;
+    margin-bottom: 24px;
+}
+
+/* Cards da equipe */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 32px;
+    margin-top: 48px;
+}
+
+.team-card {
+    text-align: center;
+}
+
+.team-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #FFF7ED;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    color: #F97316;
+}
+
+.team-card h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.team-card span {
+    font-size: 0.85rem;
+    color: #64748B;
+}
+
+/* Seção de valores */
+.valores-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 32px;
+}
+
+.valor-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.valor-icon {
+    width: 48px;
+    height: 48px;
+    background: #FFF7ED;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F97316;
+    flex-shrink: 0;
+}
+
+.valor-text h4 {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.valor-text p {
+    color: #475569;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .about-hero {
+        padding: 140px 0 80px;
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
