@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Store } from 'lucide-react';
 import './Header.css';
+import { useContactModal } from '../../contexts/ContactModalContext';
+
 
 interface HeaderProps {
-    activeSection: string;
+    activeSection?: string;  // ← opcional agora
     links?: { id: string; label: string; href?: string }[];
     onCtaClick?: () => void;
     ctaLabel?: string;
@@ -18,11 +20,44 @@ const defaultLinks = [
 ];
 
 const Header: React.FC<HeaderProps> = ({
-    activeSection,
+    activeSection: externalActiveSection,
     links = defaultLinks,
-    onCtaClick,
-    ctaLabel = 'Começar',
+    ctaLabel = 'Entrar em contato',
 }) => {
+    // Estado interno para scroll spy (usado quando não recebe a prop externamente)
+    const [internalActiveSection, setInternalActiveSection] = useState<string>('');
+    const { openModal } = useContactModal();
+
+    const activeSection = externalActiveSection || internalActiveSection;
+
+    // Scroll spy interno
+    useEffect(() => {
+        // Só ativa o scroll spy interno se não houver controle externo
+        if (externalActiveSection !== undefined) return;
+
+        const sectionIds = defaultLinks
+            .filter(link => link.href?.startsWith('/#'))
+            .map(link => link.id);
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setInternalActiveSection(entry.target.id);
+                    }
+                });
+            },
+            { rootMargin: '-40% 0px -40% 0px' }
+        );
+
+        sectionIds.forEach((id) => {
+            const element = document.getElementById(id);
+            if (element) observer.observe(element);
+        });
+
+        return () => observer.disconnect();
+    }, [externalActiveSection]);
+
     return (
         <div className="header-wrapper">
             <header className="glass-header">
@@ -60,7 +95,7 @@ const Header: React.FC<HeaderProps> = ({
                     className="btn-primary btn-sm"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={onCtaClick}
+                    onClick={openModal}
                 >
                     {ctaLabel}
                 </motion.button>

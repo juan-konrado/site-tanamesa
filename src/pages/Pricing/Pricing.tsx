@@ -1,8 +1,6 @@
 import React from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import './Pricing.css';
 
 const fadeUp: Variants = {
@@ -17,30 +15,53 @@ const stagger: Variants = {
 
 const pricingPlans = [
     {
-        name: "Essencial",
-        price: "R$ 149",
+        name: "Start",
+        price: "R$ 89,90",
         period: "/mês",
-        desc: "Ideal para operações enxutas, food trucks e balcão.",
-        features: ["Frente de Caixa (PDV) Visual", "Comandas Avulsas e Mesas", "Abertura e Fechamento de Turno", "Suporte via Chat"],
-        buttonText: "Testar Grátis",
+        desc: "Ideal para pequenos estabelecimentos iniciando a gestão.",
+        features: [
+            "PDV",
+            "Mesas",
+            "Comandas",
+            "Caixa",
+            "Estoque básico",
+            "Dashboard",
+            "Até 2 usuários"
+        ],
+        buttonText: "Quero assinar",
         highlighted: false
     },
     {
-        name: "Profissional",
-        price: "R$ 299",
+        name: "Pro",
+        price: "R$ 189,90",
         period: "/mês",
-        desc: "A solução completa com controle rigoroso de estoque.",
-        features: ["Tudo do plano Essencial", "Gestão de Estoque e Alertas", "Fichas Técnicas Automáticas", "Acesso Rápido via PIN", "Suporte Prioritário WhatsApp"],
-        buttonText: "Assinar Profissional",
+        desc: "A solução completa para restaurantes em crescimento.",
+        features: [
+            "Tudo do Start",
+            "Delivery",
+            "Financeiro",
+            "KDS",
+            "App Garçom",
+            "QR Code",
+            "Até 10 usuários",
+            "Integração iFood"
+        ],
+        buttonText: "Quero assinar",
         highlighted: true
     },
     {
-        name: "Enterprise",
-        price: "Sob medida",
-        period: "",
-        desc: "Para redes de restaurantes e franquias em expansão.",
-        features: ["Tudo do plano Profissional", "Painel Multi-Tenant (Rede)", "Feature Flags por CNPJ", "API e Integrações Premium", "Gerente de Conta Dedicado"],
-        buttonText: "Falar com Consultor",
+        name: "PLUS",
+        price: "R$ 299,90",
+        period: "/mês",
+        desc: "Para operações robustas com inteligência de dados.",
+        features: [
+            "Tudo do Pro",
+            "Relatórios inteligentes",
+            "CRM",
+            "Fidelidade",
+            "Usuários ilimitados"
+        ],
+        buttonText: "Quero assinar",
         highlighted: false
     }
 ];
@@ -48,13 +69,6 @@ const pricingPlans = [
 const Pricing: React.FC = () => {
     return (
         <div className="pricing-page">
-            <Header activeSection="" links={[
-                { id: 'pdv', label: 'Operação', href: '/#pdv' },
-                { id: 'estoque', label: 'Gestão', href: '/#estoque' },
-                { id: 'seguranca', label: 'Segurança', href: '/#seguranca' },
-                { id: 'precos', label: 'Planos', href: '/planos' },
-            ]} />
-
             <div className="container">
                 <div className="text-center">
                     <motion.span variants={fadeUp} initial="hidden" animate="visible" className="badge">Planos Transparentes</motion.span>
@@ -100,8 +114,6 @@ const Pricing: React.FC = () => {
                     ))}
                 </motion.div>
             </div>
-
-            <Footer />
         </div>
     );
 };

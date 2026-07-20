@@ -4,11 +4,11 @@ import {
     ArrowRight, Play, LayoutDashboard, Users, Receipt,
     Package, ChefHat, Calculator, Fingerprint, ShieldCheck,
     Lock, Palette,
-    Pizza, Coffee, Beer, UtensilsCrossed, Wine, CupSoda, X,
+    Pizza, Coffee, Beer, UtensilsCrossed, Wine, CupSoda, X, Phone
 } from 'lucide-react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import './Home.css';
+import { useContactModal } from '../../contexts/ContactModalContext';
+
 
 const fadeUp: Variants = {
     hidden: { opacity: 0, y: 30 },
@@ -66,6 +66,8 @@ const gridFeatures = [
 export default function Home() {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [activeSection, setActiveSection] = useState<string>('');
+    const { openModal } = useContactModal();
+
 
     useEffect(() => {
         const sectionIds = ['pdv', 'estoque', 'seguranca'];
@@ -91,13 +93,6 @@ export default function Home() {
 
     return (
         <div className="home-wrapper">
-
-            <Header activeSection={activeSection} links={[
-                { id: 'pdv', label: 'Operação', href: '/#pdv' },
-                { id: 'estoque', label: 'Gestão', href: '/#estoque' },
-                { id: 'seguranca', label: 'Segurança', href: '/#seguranca' },
-                { id: 'precos', label: 'Planos', href: '/planos' },
-            ]} />
 
             {/* HERO */}
             <section className="hero-section">
@@ -126,12 +121,10 @@ export default function Home() {
                             Mais agilidade no balcão, controle total do estoque e uma equipe sincronizada. Tudo em uma plataforma moderna e rápida.
                         </motion.p>
                         <motion.div variants={fadeUp} className="hero-actions">
-                            <motion.button className="btn-primary" whileHover={{ scale: 1.03, boxShadow: "0 8px 20px rgba(249, 115, 22, 0.3)" }} whileTap={{ scale: 0.98 }}>
-                                Assine Agora <ArrowRight size={18} />
+                            <motion.button className="btn-primary" whileHover={{ scale: 1.03, boxShadow: "0 8px 20px rgba(249, 115, 22, 0.3)" }} whileTap={{ scale: 0.98 }} onClick={openModal}>
+                                Fale Conosco <ArrowRight size={18} />
                             </motion.button>
-                            <motion.button className="btn-secondary" whileHover={{ backgroundColor: "rgba(255,255,255,0.08)" }} whileTap={{ scale: 0.98 }}>
-                                <Play size={18} /> Demonstração
-                            </motion.button>
+
                         </motion.div>
                     </motion.div>
 
@@ -213,7 +206,49 @@ export default function Home() {
                 </div>
             </section>
 
-            <Footer />
+            {/* SEÇÃO CTA FINAL */}
+            <section className="cta-section">
+                <div className="cta-glow"></div>
+                <div className="container cta-container">
+                    <motion.h2
+                        className="cta-title"
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        Pronto para transformar a gestão do seu restaurante?
+                    </motion.h2>
+                    <motion.p
+                        className="cta-text"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        Agende uma demonstração personalizada e descubra como o <strong>TaNaMesa</strong> pode
+                        aumentar sua margem de lucro em até <strong>30%</strong> no primeiro mês.
+                    </motion.p>
+                    <motion.div
+                        className="cta-actions"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        <motion.button
+                            className="btn-primary"
+                            whileHover={{ scale: 1.03, boxShadow: "0 8px 25px rgba(249, 115, 22, 0.4)" }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={openModal}
+                        >
+                            <Phone size={18} />
+                            Falar com Consultor
+                        </motion.button>
+
+                    </motion.div>
+                </div>
+            </section>
 
             {/* MODAL */}
             <AnimatePresence>
