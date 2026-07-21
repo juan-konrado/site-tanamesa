@@ -6,12 +6,14 @@ import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import Pricing from './pages/Pricing/Pricing';
 import About from './pages/About/About';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import './App.css';
 
 function App() {
   return (
     <BrowserRouter>
       <ContactModalProvider>
+        <ScrollToTop></ScrollToTop>
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />

@@ -59,7 +59,12 @@ const Header: React.FC = () => {
             // Se estiver em /planos, ativa o link Planos
             if (location.pathname === '/planos') {
                 setActiveSection('precos');
-            } else {
+            }
+            else if (location.pathname === '/quemsomos') {
+                setActiveSection('quemsomos');
+            }
+
+            else {
                 setActiveSection('');
             }
             return;

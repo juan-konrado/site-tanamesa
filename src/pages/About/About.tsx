@@ -8,15 +8,6 @@ const fadeUp = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
 };
 
-const teamMembers = [
-    { name: 'Ana Silva', role: 'CEO & Founder' },
-    { name: 'Bruno Costa', role: 'CTO' },
-    { name: 'Carla Souza', role: 'Design' },
-    { name: 'Daniel Lima', role: 'Backend' },
-    { name: 'Eduarda Rocha', role: 'Frontend' },
-    { name: 'Felipe Martins', role: 'Mobile' },
-    { name: 'Gabriela Alves', role: 'QA & Suporte' },
-];
 
 const About: React.FC = () => {
     return (
@@ -29,7 +20,7 @@ const About: React.FC = () => {
                         Simplificamos a gestão do seu <span className="highlight">restaurante</span>
                     </motion.h1>
                     <motion.p initial="hidden" animate="visible" variants={fadeUp} transition={{ delay: 0.1 }}>
-                        Somos 7 profissionais formados em ADS, unidos pela mesma missão: tornar a tecnologia acessível a pequenos e médios estabelecimentos.
+                        Somos 6 profissionais formados em ADS, unidos pela mesma missão: tornar a tecnologia acessível a pequenos e médios estabelecimentos.
                     </motion.p>
                 </div>
             </section>
@@ -52,38 +43,8 @@ const About: React.FC = () => {
                 </div>
             </section>
 
-            {/* Equipe */}
-            <section className="about-section" style={{ background: '#fff', borderTop: '1px solid #E2E8F0' }}>
-                <div className="container">
-                    <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-                        Nosso Time
-                    </motion.h2>
-                    <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} style={{ color: '#475569' }}>
-                        7 profissionais apaixonados por tecnologia e gastronomia, unidos para fazer a diferença.
-                    </motion.p>
-                    <div className="team-grid">
-                        {teamMembers.map((member, idx) => (
-                            <motion.div
-                                key={member.name}
-                                className="team-card"
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: idx * 0.05 }}
-                            >
-                                <div className="team-avatar">
-                                    <Users size={36} />
-                                </div>
-                                <h4>{member.name}</h4>
-                                <span>{member.role}</span>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* Missão e Valores */}
-            <section className="about-section">
+            <section className="about-section" style={{ background: '#fff', borderTop: '1px solid #E2E8F0' }}>
                 <div className="container">
                     <motion.h2 initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
                         O que nos move
