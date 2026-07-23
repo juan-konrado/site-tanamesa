@@ -43,6 +43,12 @@ body {
     overflow-x: hidden;
 }
 
+.container {
+    margin: 0 auto;
+    padding: 0 24px;
+
+}
+
 /* Utilitários Premium */
 .glass-effect {
     background: rgba(19, 27, 44, 0.6);

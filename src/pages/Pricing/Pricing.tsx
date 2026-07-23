@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
+import { useContactModal } from '../../contexts/ContactModalContext';
 import './Pricing.css';
 
 const fadeUp: Variants = {
@@ -66,7 +67,10 @@ const pricingPlans = [
     }
 ];
 
+
+
 const Pricing: React.FC = () => {
+    const { openModal } = useContactModal();
     return (
         <div className="pricing-page">
             <div className="container">
@@ -89,6 +93,7 @@ const Pricing: React.FC = () => {
                                     : "0 20px 40px rgba(0,0,0,0.08)"
                             }}
                             transition={{ duration: 0.4, ease: "easeOut" }}
+                            onClick={openModal}
                         >
                             {plan.highlighted && <div className="popular-tag">Mais Popular</div>}
                             <div className="pricing-header">

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import {
-    ArrowRight, Play, LayoutDashboard, Users, Receipt,
+    ArrowRight, LayoutDashboard, Users, Receipt,
     Package, ChefHat, Calculator, Fingerprint, ShieldCheck,
     Lock, Palette,
-    Pizza, Coffee, Beer, UtensilsCrossed, Wine, CupSoda, X, Phone
+    Pizza, Coffee, Beer, UtensilsCrossed, Wine, CupSoda, X, Phone,
+    Sparkles, QrCode, ScrollText, TrendingUp, Clock, Zap
 } from 'lucide-react';
 import './Home.css';
 import { useContactModal } from '../../contexts/ContactModalContext';
-
+import pdvImage from '../../assets/TelaPDV.png';
+import estoqueImage from '../../assets/TelaEstoque.png';
 
 const fadeUp: Variants = {
     hidden: { opacity: 0, y: 30 },
@@ -32,26 +34,26 @@ const floatingIcons = [
 const pillars = [
     {
         id: 'pdv',
-        title: "Frente de Caixa (PDV) Ágil e Visual",
-        subtitle: "Feito para a correria do dia a dia. Sem cliques desnecessários.",
-        imageUrl: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        title: "PDV Intuitivo e Completo",
+        subtitle: "Agilidade no salão, controle no caixa. Interface pensada para alta rotatividade.",
+        imageUrl: pdvImage,
         reverse: false,
         items: [
-            { icon: <LayoutDashboard size={24} />, title: "Mapa de Mesas Inteligente", text: "Visualize em tempo real quais mesas estão livres, ocupadas e quantas pessoas estão sentadas." },
-            { icon: <Users size={24} />, title: "Comandas Individuais e Avulsas", text: "Chega de confusão na hora de dividir a conta. Gerencie clientes na mesma mesa com comandas separadas ou atenda no balcão." },
-            { icon: <Receipt size={24} />, title: "Abertura e Fechamento de Turno", text: "Segurança financeira total. Fechamento de caixa com relatório detalhado 'Z-Report' dividindo faturamento por PIX, Cartão e Dinheiro." }
+            { icon: <LayoutDashboard size={24} />, title: "Mapa de Mesas e Comandas", text: "Mesas, comandas individuais e balcão. Tudo visual, rápido e sem erro." },
+            { icon: <Receipt size={24} />, title: "Fechamento de Caixa Inteligente", text: "Relatórios automáticos de turno com divisão por tipo de pagamento." },
+            { icon: <QrCode size={24} />, title: "Cardápio Digital via QR Code", text: "Seus clientes fazem pedidos direto da mesa, sem app. Rápido e sem custo extra." }
         ]
     },
     {
         id: 'estoque',
-        title: "Estoque e Fichas Técnicas",
-        subtitle: "Você não estoca o que vende, você estoca o que compra. Nós entendemos isso.",
-        imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+        title: "Estoque Automatizado e Fichas Técnicas",
+        subtitle: "Controle de insumos em tempo real, sem planilhas manuais.",
+        imageUrl: estoqueImage,
         reverse: true,
         items: [
-            { icon: <Package size={24} />, title: "Gestão de Matéria-Prima", text: "Controle rigoroso de insumos (Kilos, Litros, Unidades) com alertas automáticos de estoque crítico e mínimo." },
-            { icon: <ChefHat size={24} />, title: "Composição de Receitas", text: "Crie a Ficha Técnica de cada prato. Ao vender 1 'X-Burger', o sistema dá baixa automaticamente no pão, na carne e no queijo." },
-            { icon: <Calculator size={24} />, title: "Cálculo de Custo Médio", text: "Saiba exatamente quanto custa produzir cada item do seu cardápio para precificar corretamente e aumentar sua margem de lucro." }
+            { icon: <ScrollText size={24} />, title: "Leitura de NF-e Automática", text: "Dê entrada no estoque instantaneamente ao importar notas fiscais eletrônicas." },
+            { icon: <ChefHat size={24} />, title: "Fichas Técnicas com Baixa Automática", text: "Cada venda consome automaticamente os ingredientes da receita. Estoque sempre atualizado." },
+            { icon: <Calculator size={24} />, title: "Cálculo de Margem e Custos", text: "Saiba exatamente o lucro de cada prato e ajuste preços com segurança." }
         ]
     }
 ];
@@ -68,9 +70,8 @@ export default function Home() {
     const [activeSection, setActiveSection] = useState<string>('');
     const { openModal } = useContactModal();
 
-
     useEffect(() => {
-        const sectionIds = ['pdv', 'estoque', 'seguranca'];
+        const sectionIds = ['pdv', 'estoque', 'ia', 'seguranca'];
 
         const observer = new IntersectionObserver(
             (entries) => {
@@ -113,18 +114,17 @@ export default function Home() {
                 <div className="hero-glow"></div>
                 <div className="container hero-container">
                     <motion.div className="hero-content-left" variants={stagger} initial="hidden" animate="visible">
-                        <motion.div variants={fadeUp} className="badge">Nova Geração de ERP</motion.div>
                         <motion.h1 variants={fadeUp} className="hero-title">
-                            O Sistema Definitivo para o seu <span className="text-gradient">Restaurante</span>.
+                            Gestão simples, <span className="text-gradient">inteligente e sem complicação</span>.
                         </motion.h1>
                         <motion.p variants={fadeUp} className="hero-subtitle">
-                            Mais agilidade no balcão, controle total do estoque e uma equipe sincronizada. Tudo em uma plataforma moderna e rápida.
+                            PDV, estoque e cardápio digital que pensa no seu lucro. 
+                            Adeus sistemas complexos... sua equipe aprende em minutos.
                         </motion.p>
                         <motion.div variants={fadeUp} className="hero-actions">
                             <motion.button className="btn-primary" whileHover={{ scale: 1.03, boxShadow: "0 8px 20px rgba(249, 115, 22, 0.3)" }} whileTap={{ scale: 0.98 }} onClick={openModal}>
                                 Fale Conosco <ArrowRight size={18} />
                             </motion.button>
-
                         </motion.div>
                     </motion.div>
 
@@ -132,7 +132,7 @@ export default function Home() {
                         <div className="hero-image-wrapper">
                             <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Dashboard" className="hero-main-image" />
                             <motion.div className="floating-card top-card" drag dragConstraints={{ left: -10, right: 10, top: -10, bottom: 10 }}>
-                                <LayoutDashboard size={20} className="text-orange" />
+                                <Sparkles size={20} className="text-orange" />
                                 <span>Mesas Ocupadas: 18</span>
                             </motion.div>
                             <motion.div className="floating-card bottom-card" drag dragConstraints={{ left: -10, right: 10, top: -10, bottom: 10 }}>
@@ -144,7 +144,7 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* PILARES */}
+            {/* PILARES: PDV e Estoque */}
             <section className="pillars-section">
                 <div className="container">
                     {pillars.map((pillar) => (
@@ -181,13 +181,13 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* BENTO GRID */}
-            <section className="grid-section" id="seguranca">
+            {/* BENTO GRID SEGURANÇA (mantido) */}
+            <section className="grid-section" id="seguranca" style={{ backgroundColor: '#0F172A', borderTop: '1px solid #1E293B' }}>
                 <div className="container">
                     <div className="text-center">
-                        <motion.span variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="badge">Segurança Institucional</motion.span>
-                        <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-title text-light">Gestão de Equipe e Marca (RBAC)</motion.h2>
-                        <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-subtitle text-light-muted">Controle absoluto sobre quem acessa o quê. E o sistema se adapta à identidade visual do seu negócio, gerando mais confiança na sua operação.</motion.p>
+                        <motion.span variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="badge">Segurança e Personalização</motion.span>
+                        <motion.h2 variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-title text-light">Controle total da sua operação</motion.h2>
+                        <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} className="section-subtitle text-light-muted">Da liberação de acessos à identidade visual, você decide cada detalhe.</motion.p>
                     </div>
                     <motion.div className="bento-grid" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={stagger}>
                         {gridFeatures.map((feat, idx) => (
@@ -206,7 +206,7 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* SEÇÃO CTA FINAL */}
+            {/* CTA FINAL */}
             <section className="cta-section">
                 <div className="cta-glow"></div>
                 <div className="container cta-container">
@@ -217,7 +217,7 @@ export default function Home() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     >
-                        Pronto para transformar a gestão do seu restaurante?
+                        Pronto para ter um sistema que pensa no seu lucro?
                     </motion.h2>
                     <motion.p
                         className="cta-text"
@@ -226,8 +226,8 @@ export default function Home() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
                     >
-                        Agende uma demonstração personalizada e descubra como o <strong>TaNaMesa</strong> pode
-                        aumentar sua margem de lucro em até <strong>30%</strong> no primeiro mês.
+                        Agende uma demonstração e descubra como o <strong>TáNaMesa</strong> reduz perdas, 
+                        automatiza processos e transforma dados em oportunidades reais de receita.
                     </motion.p>
                     <motion.div
                         className="cta-actions"
@@ -245,7 +245,6 @@ export default function Home() {
                             <Phone size={18} />
                             Falar com Consultor
                         </motion.button>
-
                     </motion.div>
                 </div>
             </section>

@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
                         <div className="logo-area">
                             <Store className="text-orange" size={32} />
                             <span className="logo-text" style={{ fontSize: '1.75rem', color: '#F8FAFC' }}>
-                                TaNaMesa
+                                TáNaMesa
                             </span>
                         </div>
                         <p className="footer-desc">

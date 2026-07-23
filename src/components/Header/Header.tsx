@@ -107,7 +107,7 @@ const Header: React.FC = () => {
                     transition={{ duration: 0.3 }}
                 >
                     <Store className="text-orange" size={24} />
-                    <span className="logo-text">TaNaMesa</span>
+                    <span className="logo-text">TáNaMesa</span>
                 </motion.div>
 
                 <nav className="nav-links">
